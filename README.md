@@ -20,6 +20,23 @@ The core idea of this project strives to align the customer experience with the 
 
   3.**Efficient Visualization**:
     Uses Blender and Three.js for high-quality 3D model viewing.
-    
+
   4.**Immersive VR Showrooms**:
     Employs Unreal Engine and VR plugins for an interactive experience.
+
+  ## Features
+  1.**Advanced Lexical Analysis**: Utilises Gemini API for accurate interpretation and analysis of customer prompt.
+
+  2.**Dynamic Recommendation System**: Adapts according to user preferences which allow further refinement of model generation.
+
+  3.**Detailed Specifications View**: Provides customers with the option to view the internal and external specs of the model as well as its current market price for informed decision-making.
+
+  4.**High-Quality Rendering**: The use of Three.js to render GLB models allows not only realistic visualisation but also maximum optimisation for the models generated.
+
+  ## Components
+  1.**Generative AI** - Gemini API is used to perform a descriptive analysis of the customer prompts. This analysis helps in generating various accurate suggestions based on the customer's needs.
+  2.**Flask** - Various endpoints are created using Flask in order to make API calls and then  render the models and their specifications onto the frontend.
+  3.**Blender** - It is used to initially view and process the vehicle models.
+  4.**Three.js** - It is employed to render the models and initialise a scene that defines the viewpoint using a perspective camera.Directional and ambient lighting are used to give depth to the models. GLTFLoader is used to render the GLB models onto the screen. A showroom floor is created using PlaneGeometry and MeshStandardMaterial.
+  5.**Unreal Engine** - For providing an immersive showroom layout, VR plugins such as SteamVR and OculusVR are used that allows the user to explore the models thoroughly.
+
