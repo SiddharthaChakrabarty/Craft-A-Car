@@ -14,9 +14,12 @@ The core idea of this project strives to align the customer experience with the 
   ## Usage
   1.**Personalized Recommendations**:
     Tailors vehicle suggestions based on customer preferences.
+
   2.**Enhanced Customer Experience**:
     Provides detailed specifications and choices, aiding informed decisions.
+
   3.**Efficient Visualization**:
     Uses Blender and Three.js for high-quality 3D model viewing.
+    
   4.**Immersive VR Showrooms**:
     Employs Unreal Engine and VR plugins for an interactive experience.
