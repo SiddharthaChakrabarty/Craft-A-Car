@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>3D Showroom</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script>
+        // Set up the scene, camera, and renderer
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Add controls
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+        // Add a floor
+        const floorGeometry = new THREE.PlaneGeometry(100, 100);
+        const floorMaterial = new THREE.MeshBasicMaterial({ color: 0x808080 });
+        const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+        floor.rotation.x = -Math.PI / 2;
+        scene.add(floor);
+
+        // Add walls
+        const wallMaterial = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
+        const wall1 = new THREE.Mesh(new THREE.PlaneGeometry(100, 50), wallMaterial);
+        wall1.position.set(0, 25, -50);
+        scene.add(wall1);
+
+        const wall2 = new THREE.Mesh(new THREE.PlaneGeometry(100, 50), wallMaterial);
+        wall2.rotation.y = -Math.PI / 2;
+        wall2.position.set(-50, 25, 0);
+        scene.add(wall2);
+
+        const wall3 = new THREE.Mesh(new THREE.PlaneGeometry(100, 50), wallMaterial);
+        wall3.rotation.y = Math.PI / 2;
+        wall3.position.set(50, 25, 0);
+        scene.add(wall3);
+
+        const wall4 = new THREE.Mesh(new THREE.PlaneGeometry(100, 50), wallMaterial);
+        wall4.position.set(0, 25, 50);
+        wall4.rotation.y = Math.PI;
+        scene.add(wall4);
+
+        // Add some furniture (e.g., a table)
+        const tableGeometry = new THREE.BoxGeometry(10, 1, 5);
+        const tableMaterial = new THREE.MeshBasicMaterial({ color: 0x8b4513 });
+        const table = new THREE.Mesh(tableGeometry, tableMaterial);
+        table.position.set(0, 0.5, 0);
+        scene.add(table);
+
+        // Position the camera
+        camera.position.z = 100;
+        controls.update();
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
+
+</html>

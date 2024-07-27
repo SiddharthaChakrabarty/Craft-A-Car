@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Model Viewer</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      /* background-color: #f0f0f0; */
+      margin: 0;
+    }
+
+    #buttonContainer {
+
+      margin-left: 20px;
+      position: fixed;
+      width: 100%;
+      top: 10px;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+    }
+
+    button {
+      background-color: #555555;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      /* transition: background-color 0.3s; */
+    }
+
+    button:hover {
+      background-color: #ddd;
+    }
+
+    #satisfactionMessage {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: none;
+      font-size: 18px;
+      color: green;
+      text-align: center;
+    }
+
+    #satisfactionOptions {
+      display: none;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .satisfactionButton {
+      margin: 0 10px;
+      padding: 10px 15px;
+      border-radius: 5px;
+      border: 1px solid transparent;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .satisfactionButton:hover {
+      background-color: #45a049;
+    }
+
+    .notSatisfied {
+      background-color: #f44336;
+    }
+
+    .notSatisfied:hover {
+      background-color: #d32f2f;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+  <div id="modelContainer"></div>
+
+
+  <div id="buttonContainer">
+    <button id="prevButton" style="display: none;">Previous</button>
+    <button id="nextButton">Next</button>
+    <!-- New button to view specs page -->
+    <button id="viewSpecsButton">View Specs</button>
+  </div>
+
+  <div id="satisfactionMessage">
+    Are you satisfied with the recommendation?
+    <div id="satisfactionOptions">
+      <button class="satisfactionButton" id="yesButton">Yes</button>
+      <button class="satisfactionButton notSatisfied" id="noButton">No</button>
+    </div>
+  </div>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+    import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const rawSelectedFiles = urlParams.get('files');
+    const selectedFiles = decodeURIComponent(rawSelectedFiles).split(',');
+
+    let currentIndex = 0;
+
+    function loadModel(selectedFile) {
+      const modelUrl = selectedFile;
+      console.log("Model URL:", modelUrl);
+
+      const renderer = new THREE.WebGL1Renderer({ antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.getElementById('modelContainer').innerHTML = '';
+      document.getElementById('modelContainer').appendChild(renderer.domElement);
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
+      const orbit = new OrbitControls(camera, renderer.domElement);
+
+      camera.position.set(0, 100, 300);
+      orbit.update();
+
+      const ambientLight = new THREE.AmbientLight(0x404040, 2); // Increased intensity for more vibrance
+      scene.add(ambientLight);
+
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+      directionalLight.position.set(100, 100, 100).normalize();
+      scene.add(directionalLight);
+
+      const assetLoader = new GLTFLoader();
+      assetLoader.load(
+        modelUrl,
+        function (gltf) {
+          console.log("Model loaded successfully");
+          const model = gltf.scene;
+          scene.add(model);
+          model.position.set(0, 0, 0);
+          model.scale.set(100, 100, 100);
+        },
+        undefined,
+        function (error) {
+          console.error("Model loading error:", error);
+        }
+      );
+
+      // Create showroom walls and floor
+      const floorGeometry = new THREE.PlaneGeometry(1000, 1000);
+      const floorMaterial = new THREE.MeshStandardMaterial({ color: 0x555555 }); // Darker and more vibrant
+      const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+      floor.rotation.x = -Math.PI / 2;
+      scene.add(floor);
+
+      // const wallMaterial = new THREE.MeshStandardMaterial({ color: 0x888888 }); // More vibrant grey
+      // const wall1 = new THREE.Mesh(new THREE.PlaneGeometry(1000, 500), wallMaterial);
+      // wall1.position.set(0, 250, -500);
+      // scene.add(wall1);
+
+      // const wall2 = new THREE.Mesh(new THREE.PlaneGeometry(1000, 500), wallMaterial);
+      // wall2.rotation.y = -Math.PI / 2;
+      // wall2.position.set(-500, 250, 0);
+      // scene.add(wall2);
+
+      // const wall3 = new THREE.Mesh(new THREE.PlaneGeometry(1000, 500), wallMaterial);
+      // wall3.rotation.y = Math.PI / 2;
+      // wall3.position.set(500, 250, 0);
+      // scene.add(wall3);
+
+      // const wall4 = new THREE.Mesh(new THREE.PlaneGeometry(1000, 500), wallMaterial);
+      // wall4.position.set(0, 250, 500);
+      // wall4.rotation.y = Math.PI;
+      // scene.add(wall4);
+
+      renderer.setClearColor('white');
+
+      function animate() {
+        renderer.render(scene, camera);
+      }
+
+      renderer.setAnimationLoop(animate);
+    }
+
+    function updateModel() {
+      loadModel(selectedFiles[currentIndex]);
+      document.getElementById('prevButton').style.display = currentIndex === 0 ? 'none' : 'inline';
+      document.getElementById('nextButton').style.display = currentIndex === selectedFiles.length - 1 ? 'none' : 'inline';
+
+      const satisfactionMessage = document.getElementById('satisfactionMessage');
+      const satisfactionOptions = document.getElementById('satisfactionOptions');
+      if (currentIndex === selectedFiles.length - 1) {
+        satisfactionMessage.style.display = 'block';
+        satisfactionOptions.style.display = 'flex';
+      } else {
+        satisfactionMessage.style.display = 'none';
+        satisfactionOptions.style.display = 'none';
+      }
+    }
+
+    const extractVehicleType = (files) => {
+      const pathSegments = files[0].split('\\'); // Split the path by backslashes
+      if (pathSegments.length >= 3) {
+        const vehicleType = pathSegments[pathSegments.length - 3] + ' ' + pathSegments[pathSegments.length - 2]; // Combine last two segments
+        return vehicleType.replace(/%20/g, ' '); // Replace %20 with space
+      }
+      return 'unknown'; // Default value if not enough segments
+    };
+
+    const vehicleType = extractVehicleType(selectedFiles);
+    console.log('Extracted Vehicle Type:', vehicleType);
+
+    document.getElementById('prevButton').addEventListener('click', () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateModel();
+      }
+    });
+
+    document.getElementById('nextButton').addEventListener('click', () => {
+      if (currentIndex < selectedFiles.length - 1) {
+        currentIndex++;
+        updateModel();
+      }
+    });
+
+    document.getElementById('viewSpecsButton').addEventListener('click', () => {
+      // Redirect to specs page with vehicle specs as query parameter
+      // const specs = encodeURIComponent(JSON.stringify(vehicleSpecs));
+      window.location.href = `/specs.html?vehicle_type=${vehicleType}`;
+    });
+
+    document.getElementById('yesButton').addEventListener('click', () => {
+      alert('Thank you for your feedback!');
+      // Handle yes action
+    });
+
+    document.getElementById('noButton').addEventListener('click', () => {
+      // Retrieve secondPathModels from localStorage and redirect
+      alert('We appreciate your feedback and will improve upon the recommendations!');
+    });
+
+    if (selectedFiles.length > 0 && selectedFiles[0] !== "null") {
+      updateModel();
+    } else {
+      console.error("No valid files selected for loading the models.");
+    }
+  </script>
+
+</body>
+
+</html>

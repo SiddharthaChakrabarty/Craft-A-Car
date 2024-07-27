@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Enabled Model Generator</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div id="app"></div>
+
+  <div id="formContainer">
+    <form class="form" id="requirementsForm" method="POST" onsubmit="handleSubmit(event)">
+      <h2 class="gradient-text">Vehicle Requirements</h2>
+      <textarea name="requirements" rows="4" placeholder="Enter vehicle requirements..." required></textarea>
+      <input type="submit" value="Generate Model">
+    </form>
+  </div>
+
+  <script>
+    async function handleSubmit(event) {
+      event.preventDefault();
+
+      const requirements = event.target.requirements.value;
+      if (requirements) {
+        const formContainer = document.getElementById('formContainer');
+        formContainer.style.opacity = '0';
+        setTimeout(() => {
+          formContainer.remove();
+        }, 300);
+
+        try {
+          const response = await fetch('http://localhost:5000/get_vehicle', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ requirements }),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const data = await response.json();
+          if (data.selected_files && data.selected_files.length > 0) {
+            console.log("Selected Paths and Models:", data);
+
+            // Use the models from the first path
+            const firstPathModels = data.selected_files[0].models;
+            const secondPathModels = data.selected_files[1].models;
+            const thirdPathModels = data.selected_files[2].models;
+
+            localStorage.setItem('secondPathModels', JSON.stringify(secondPathModels));
+            localStorage.setItem('thirdPathModels', JSON.stringify(thirdPathModels));
+
+            // Redirect with the models as a query parameter
+            window.location.href = `/model.html?files=${encodeURIComponent(firstPathModels.join(','))}`;
+          } else {
+            console.error("Error:", data.error);
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      }
+    }
+  </script>
+
+</body>
+
+</html>

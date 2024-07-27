@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vehicle Specifications</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        #specsContainer {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        #specsDisplay {
+            text-wrap: wrap;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-top: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="specsContainer">
+        <h1>Vehicle Specifications</h1>
+        <pre id="specsDisplay"></pre>
+    </div>
+
+    <script>
+        // Function to fetch vehicle specifications
+        async function fetchVehicleSpecs(vehicleType) {
+            try {
+                const response = await fetch('http://localhost:5000/get_vehicle_specs', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ vehicle_type: vehicleType })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log("Vehicle Specifications:", data.specifications);
+                    // Display vehicle specs on the screen
+                    const specsDisplay = document.getElementById('specsDisplay');
+                    specsDisplay.textContent = 'Vehicle Specifications:\n';
+                    data.specifications.forEach(spec => {
+                        if (spec.trim() !== '') {
+                            specsDisplay.textContent += `${spec}\n`;
+                        }
+                    });
+                } else {
+                    console.error("Failed to fetch vehicle specifications.");
+                    document.getElementById('specsDisplay').textContent = 'Failed to fetch vehicle specifications.';
+                }
+            } catch (error) {
+                console.error("Error fetching vehicle specifications:", error);
+                document.getElementById('specsDisplay').textContent = 'Error fetching vehicle specifications.';
+            }
+        }
+
+        // Extract vehicle type from URL parameters
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const rawVehicleType = urlParams.get('vehicle_type');
+            if (rawVehicleType) {
+                const vehicleType = decodeURIComponent(rawVehicleType);
+                console.log('Extracted Vehicle Type:', vehicleType);
+                // Fetch and display the vehicle specifications
+                fetchVehicleSpecs(vehicleType);
+            } else {
+                document.getElementById('specsDisplay').textContent = 'No vehicle type specified.';
+            }
+        });
+    </script>
+</body>
+
+</html>
