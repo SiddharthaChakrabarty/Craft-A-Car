@@ -16,8 +16,8 @@ The core idea of this project strives to align the customer experience with the 
 
   2. **Navigate to the project directory**:
     ```bash
-     cd Craft-A-Car
-     ```
+       cd Craft-A-Car
+    ```
 
   3. **Install backend dependencies**:
    ```bash
