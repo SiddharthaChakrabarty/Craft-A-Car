@@ -1,4 +1,4 @@
-# Craft-A-Car--An-AI-Enabled-3D-Model-Generator-with-VR-incorporated
+# Craft-A-Car
 ## Overview
 The core idea of this project strives to align the customer experience with the automotive industry, providing with new models that fit the demands and preferences of the customer. The primary goal is to offer a number of options personalised to each customer's specific needs.
 ![WhatsApp Image 2024-07-27 at 18 37 13_37e1bb17](https://github.com/user-attachments/assets/a5b49429-71f6-4db3-8333-e87bbe2e7102)
