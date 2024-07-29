@@ -7,6 +7,7 @@ The core idea of this project strives to align the customer experience with the 
 
 
 ## Table of Contents
+- [Getting Started](#getting started)
 - [Usage](#usage)
 - [Features](#features)
 - [Components](#components)
