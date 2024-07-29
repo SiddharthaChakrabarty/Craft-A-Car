@@ -26,18 +26,22 @@ The core idea of this project strives to align the customer experience with the 
    # On macOS and Linux
    source venv/bin/activate
    pip install flask, flask-cors, google-generativeai, regex
+  ```
 
   4. **Run the backend server (runs on port 5000 by default)**:
    ```bash
    python app.py
+   ```
 
   5. **Install frontend dependencies**:
    ```bash
    npm install
+   ```
 
   6. **Run the frontend server (runs on port 5173 by default)**:
    ```bash
    npm run dev
+   ```
 
   7. **Open your web browser and navigate to `http://localhost:5173`**:
 
