@@ -12,6 +12,13 @@ The core idea of this project strives to align the customer experience with the 
 - [Features](#features)
 - [Components](#components)
 
+  ## Getting Started
+  To get started with Craft-A-Car, follow these steps:
+
+  1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/SiddharthaChakrabarty/Craft-A-Car.git
+
   ## Usage
   1.**Personalized Recommendations**:
     Tailors vehicle suggestions based on customer preferences.
