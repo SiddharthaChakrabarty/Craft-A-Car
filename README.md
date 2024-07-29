@@ -15,11 +15,12 @@ The core idea of this project strives to align the customer experience with the 
   ```
 
   2. **Navigate to the project directory**:
+     
     ```bash
        cd Craft-A-Car
     ```
 
-  3. **Install backend dependencies**:
+  4. **Install backend dependencies**:
    ```bash
    python3 -m venv venv
    # On Windows
