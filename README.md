@@ -7,10 +7,10 @@ The core idea of this project strives to align the customer experience with the 
 
 
 ## Table of Contents
-- [Getting Started](#getting_started)
-- [Usage](#usage)
-- [Features](#features)
-- [Components](#components)
+- [Getting Started](##getting_started)
+- [Usage](##usage)
+- [Features](##features)
+- [Components](##components)
 
   ## Getting Started
   To get started with Craft-A-Car, follow these steps:
@@ -18,6 +18,9 @@ The core idea of this project strives to align the customer experience with the 
   1. **Clone the repository**:
    ```bash
    git clone https://github.com/SiddharthaChakrabarty/Craft-A-Car.git
+  ```
+
+   
 
   ## Usage
   1.**Personalized Recommendations**:
