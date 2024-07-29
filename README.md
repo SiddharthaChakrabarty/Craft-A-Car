@@ -6,12 +6,6 @@ The core idea of this project strives to align the customer experience with the 
 ![WhatsApp Image 2024-07-27 at 18 37 14_8e4be58a](https://github.com/user-attachments/assets/b263a27e-8afa-4c01-8d1a-0268e5876d22)
 
 
-## Table of Contents
-- [Getting Started](##getting_started)
-- [Usage](##usage)
-- [Features](##features)
-- [Components](##components)
-
   ## Getting Started
   To get started with Craft-A-Car, follow these steps:
 
@@ -20,7 +14,32 @@ The core idea of this project strives to align the customer experience with the 
    git clone https://github.com/SiddharthaChakrabarty/Craft-A-Car.git
   ```
 
-   
+  2. **Navigate to the project directory**:
+    ```bash
+     cd Craft-A-Car
+   ```
+  3. **Install backend dependencies**:
+   ```bash
+   python3 -m venv venv
+   # On Windows
+   venv\Scripts\activate
+   # On macOS and Linux
+   source venv/bin/activate
+   pip install flask, flask-cors, google-generativeai, regex
+
+  4. **Run the backend server (runs on port 5000 by default)**:
+   ```bash
+   python app.py
+
+  5. **Install frontend dependencies**:
+   ```bash
+   npm install
+
+  6. **Run the frontend server (runs on port 5173 by default)**:
+   ```bash
+   npm run dev
+
+  7. **Open your web browser and navigate to `http://localhost:5173`**:
 
   ## Usage
   1.**Personalized Recommendations**:
